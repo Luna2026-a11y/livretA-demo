@@ -227,6 +227,126 @@ body::after {
     margin-left: 4px;
 }
 
+/* ── Inflation / pouvoir d'achat ── */
+.inf-panel {
+    background: var(--panel);
+    border: 1px solid rgba(0, 245, 255, 0.2);
+    padding: 16px 16px 18px;
+    margin-top: 14px;
+    position: relative;
+}
+
+.inf-panel::before, .inf-panel::after {
+    content: '';
+    position: absolute;
+    width: 12px; height: 12px;
+    border-color: rgba(0, 245, 255, 0.25);
+    border-style: solid;
+}
+.inf-panel::before { top: -1px;    left:  -1px; border-width: 2px 0 0 2px; }
+.inf-panel::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+.inf-equation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 16px 0 14px;
+    flex-wrap: wrap;
+}
+
+.inf-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    min-width: 70px;
+}
+
+.inf-val {
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.inf-val.cyan {
+    color: var(--cyan);
+    text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
+}
+
+.inf-val.pink {
+    color: var(--pink);
+    text-shadow: 0 0 10px rgba(255, 0, 170, 0.5);
+}
+
+.inf-real-value {
+    font-size: clamp(1.2rem, 5vw, 1.8rem);
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.inf-real-value.positive {
+    color: var(--green);
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.6), 0 0 30px rgba(0, 255, 65, 0.2);
+}
+
+.inf-real-value.negative {
+    color: var(--pink);
+    text-shadow: 0 0 10px rgba(255, 0, 170, 0.6);
+}
+
+.inf-lbl {
+    font-size: 0.45rem;
+    letter-spacing: 3px;
+    color: rgba(0, 245, 255, 0.3);
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.inf-period {
+    color: rgba(0, 245, 255, 0.2);
+    letter-spacing: 1px;
+}
+
+.inf-op {
+    font-size: clamp(1rem, 4vw, 1.4rem);
+    color: rgba(0, 245, 255, 0.2);
+    font-weight: bold;
+    padding-bottom: 18px;
+}
+
+.inf-status {
+    text-align: center;
+    font-size: 0.68rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    padding: 10px;
+    border: 1px solid transparent;
+}
+
+.inf-status.positive {
+    color: var(--green);
+    border-color: rgba(0, 255, 65, 0.2);
+    background: rgba(0, 255, 65, 0.04);
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+}
+
+.inf-status.negative {
+    color: var(--pink);
+    border-color: rgba(255, 0, 170, 0.2);
+    background: rgba(255, 0, 170, 0.04);
+    text-shadow: 0 0 8px rgba(255, 0, 170, 0.4);
+}
+
+.inf-source {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.45rem;
+    color: rgba(0, 245, 255, 0.15);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
 /* ── Update button ── */
 .btn-update {
     display: block;

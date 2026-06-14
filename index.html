@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'self' https://www.googletagmanager.com; style-src 'self'; img-src https://www.google-analytics.com; connect-src https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://www.googletagmanager.com; frame-src https://www.googletagmanager.com; frame-ancestors 'none';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' https://www.google-analytics.com; connect-src https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net https://www.googletagmanager.com https://ec.europa.eu; frame-src https://www.googletagmanager.com; frame-ancestors 'none';">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -84,6 +84,28 @@
                 <span class="cursor" aria-hidden="true"></span>
             </div>
         </section>
+
+        <div class="inf-panel" aria-label="Pouvoir d'achat réel du Livret A">
+            <div class="chart-label">&gt;&nbsp;Pouvoir d'achat réel&nbsp;&lt;</div>
+            <div class="inf-equation">
+                <div class="inf-col">
+                    <div class="inf-val cyan" id="inf-livreta-value">1,5%</div>
+                    <div class="inf-lbl">LIVRET A</div>
+                </div>
+                <div class="inf-op">−</div>
+                <div class="inf-col">
+                    <div class="inf-val pink"><span id="inf-inflation-value">…</span>%</div>
+                    <div class="inf-lbl">INFLATION <span id="inf-inflation-period" class="inf-period"></span></div>
+                </div>
+                <div class="inf-op">=</div>
+                <div class="inf-col">
+                    <div class="inf-real-value" id="inf-real-value">…</div>
+                    <div class="inf-lbl">TAUX RÉEL</div>
+                </div>
+            </div>
+            <div class="inf-status" id="inf-status">Chargement…</div>
+            <div class="inf-source">Source : Eurostat HICP France (données open source)</div>
+        </div>
 
         <button class="btn-update" id="btn-update" onclick="updateRate()"
                 aria-label="Actualiser le taux affiché">
@@ -199,6 +221,7 @@
     </aside>
 
     <script src="js/data.js"></script>
+    <script src="js/inflation.js"></script>
     <script src="js/audio.js"></script>
     <script src="js/chart.js"></script>
     <script src="js/console.js"></script>

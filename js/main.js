@@ -67,6 +67,9 @@ function updateRate() {
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('session-id').textContent = generateSessionId();
     renderRate(RATE_DATA);
+    document.getElementById('inf-livreta-value').textContent =
+        RATE_DATA.rate.toFixed(1).replace('.', ',') + '%';
     startCountdown();
     initChart();
+    renderInflation();
 });
