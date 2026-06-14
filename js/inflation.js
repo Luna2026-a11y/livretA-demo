@@ -69,6 +69,7 @@ async function renderInflation() {
 
     fetchInflationHistory().then(function (history) {
         window.INFLATION_HISTORY = history;
-        if (typeof window.redrawChart === 'function') window.redrawChart();
+        if (typeof window.redrawChart    === 'function') window.redrawChart();
+        if (typeof renderPrediction      === 'function') renderPrediction();
     });
 }

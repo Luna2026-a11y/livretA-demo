@@ -114,6 +114,51 @@
             <div class="inf-source">Source : Eurostat HICP France (données open source)</div>
         </div>
 
+        <div class="pred-panel" id="pred-panel" style="display:none" aria-label="Prédiction du prochain taux">
+            <div class="chart-label">&gt;&nbsp;Prédiction — 1<sup>er</sup> août 2026&nbsp;&lt;</div>
+
+            <div class="pred-countdown-wrap">
+                <span class="pred-countdown-label">RÉVISION DANS</span>
+                <span class="pred-countdown" id="pred-countdown">…</span>
+            </div>
+
+            <div class="pred-body">
+                <div class="pred-inputs">
+                    <div class="pred-row">
+                        <span class="pred-lbl">Inflation moy. <span id="pred-period" class="pred-period"></span></span>
+                        <span class="pred-val pink" id="pred-infl">…</span>
+                    </div>
+                    <div class="pred-row">
+                        <span class="pred-lbl">€STR moy. BCE</span>
+                        <span class="pred-val cyan" id="pred-estr">…</span>
+                    </div>
+                    <div class="pred-sep">// formule banque de france //</div>
+                    <div class="pred-row small">
+                        <span class="pred-lbl">½ × (infl + €STR)</span>
+                        <span class="pred-val" id="pred-f1">…</span>
+                    </div>
+                    <div class="pred-row small">
+                        <span class="pred-lbl">infl − 0,25 %</span>
+                        <span class="pred-val" id="pred-f2">…</span>
+                    </div>
+                    <div class="pred-row small">
+                        <span class="pred-lbl">max des deux → arrondi 0,25 %</span>
+                        <span class="pred-val" id="pred-raw">…</span>
+                    </div>
+                </div>
+
+                <div class="pred-result">
+                    <div class="pred-result-label">ESTIMATION</div>
+                    <div class="pred-value" id="pred-value">…</div>
+                    <div class="pred-direction" id="pred-direction">…</div>
+                </div>
+            </div>
+
+            <p class="pred-disclaimer">
+                ⚠ Estimation indicative basée sur les données disponibles — le gouvernement peut s'écarter de la formule officielle.
+            </p>
+        </div>
+
         <button class="btn-update" id="btn-update" onclick="updateRate()"
                 aria-label="Actualiser le taux affiché">
             [&nbsp;Actualiser le taux&nbsp;]
@@ -234,6 +279,7 @@
 
     <script src="js/data.js"></script>
     <script src="js/inflation.js"></script>
+    <script src="js/prediction.js"></script>
     <script src="js/audio.js"></script>
     <script src="js/chart.js"></script>
     <script src="js/console.js"></script>

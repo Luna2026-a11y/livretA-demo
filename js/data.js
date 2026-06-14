@@ -17,6 +17,15 @@ const HISTORY = [
     { date: '2026-02-01', rate: 1.50, label: 'Fév. 2026'  },
 ];
 
+// ─── €STR (taux interbancaire BCE) ────────────────────────────────────────────
+// Mettre à jour avec la moyenne semestrielle avant chaque révision.
+// Source : https://www.ecb.europa.eu/stats/financial_markets_and_interest_rates/euro_short-term_rate
+const ESTR_RATE = {
+    rate: 2.09,
+    period: 'H1 2026 (estimation)',
+    source: 'BCE / €STR'
+};
+
 // ─── Sources officielles ──────────────────────────────────────────────────────
 const SOURCES = [
     {
