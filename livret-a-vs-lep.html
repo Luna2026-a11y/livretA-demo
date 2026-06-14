@@ -33,184 +33,284 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "Livret A vs LEP 2026 : lequel choisir ?",
-      "description": "Comparatif Livret A et LEP : taux, plafonds, conditions d'éligibilité et simulateur.",
-      "url": "https://neurocash.fr/livret-a-vs-lep.html",
-      "inLanguage": "fr-FR",
-      "dateModified": "2026-02-01",
-      "publisher": { "@type": "Organization", "name": "NeuroCash", "url": "https://neurocash.fr" }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
         {
           "@type": "Question",
           "name": "Peut-on avoir un Livret A et un LEP en même temps ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Oui. Un même épargnant peut détenir à la fois un Livret A et un LEP, à condition de remplir les conditions de ressources pour le LEP. La stratégie optimale est d'alimenter le LEP en priorité jusqu'au plafond de 10 000 €, puis le Livret A pour le surplus."
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "Oui. Un épargnant peut détenir simultanément un Livret A et un LEP sous réserve de remplir les conditions de ressources du LEP. La stratégie optimale est d'alimenter le LEP en priorité jusqu'au plafond de 10 000 €, puis le Livret A pour le surplus." }
         },
         {
           "@type": "Question",
           "name": "Quelles sont les conditions pour ouvrir un LEP en 2026 ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Le LEP est réservé aux personnes dont le revenu fiscal de référence (RFR) ne dépasse pas un plafond défini chaque année. Pour 2026 (revenus 2024), le seuil indicatif est d'environ 22 419 € pour 1 part fiscale. Les seuils exacts sont publiés sur service-public.fr."
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "Le revenu fiscal de référence (RFR) doit être inférieur à un plafond défini chaque année. Pour 2026 (revenus 2024), le seuil indicatif est d'environ 22 419 € pour 1 part fiscale. Les seuils exacts sont publiés sur service-public.fr." }
         },
         {
           "@type": "Question",
           "name": "Le LEP rapporte-t-il plus que le Livret A ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Oui. En 2026, le taux du LEP est de 2,5 % contre 1,5 % pour le Livret A, soit 67 % de rendement supplémentaire. Sur 10 000 € placés pendant 5 ans, l'écart de gains dépasse 500 €."
-          }
+          "acceptedAnswer": { "@type": "Answer", "text": "Oui. En 2026, le LEP offre 2,5 % contre 1,5 % pour le Livret A, soit 67 % de rendement supplémentaire. Sur 10 000 € placés pendant 5 ans, l'écart de gains dépasse 500 €." }
         },
         {
           "@type": "Question",
-          "name": "Le LEP est-il un placement sûr ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Oui. Comme le Livret A, le LEP est garanti par l'État français, sans risque de perte en capital. Les fonds sont disponibles à tout moment (liquidité immédiate) et les intérêts sont exonérés d'impôt et de prélèvements sociaux."
-          }
+          "name": "Le LEP est-il garanti par l'État ?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Oui. Comme le Livret A, le LEP est un livret réglementé garanti par l'État français. Les fonds sont disponibles à tout moment et les intérêts sont exonérés d'impôt et de prélèvements sociaux." }
         }
       ]
     }
     </script>
     <link rel="stylesheet" href="css/style.css">
     <style>
+        /* ── Grille 2 colonnes taux ── */
+        .rates-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+        .rate-mini {
+            background: var(--panel);
+            border: 1px solid rgba(0,245,255,0.25);
+            padding: 22px 16px 18px;
+            text-align: center;
+            position: relative;
+        }
+        .rate-mini::before, .rate-mini::after {
+            content: '';
+            position: absolute;
+            width: 14px; height: 14px;
+            border-color: var(--pink);
+            border-style: solid;
+        }
+        .rate-mini::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+        .rate-mini::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+        .rate-mini.winner {
+            border-color: var(--green);
+            box-shadow: 0 0 18px rgba(0,255,65,0.1), inset 0 0 18px rgba(0,255,65,0.03);
+        }
+        .rate-mini-tag {
+            font-size: 0.55rem;
+            letter-spacing: 4px;
+            color: var(--pink);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .rate-mini-name {
+            font-size: 0.6rem;
+            letter-spacing: 5px;
+            color: rgba(0,245,255,0.5);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .rate-mini-val {
+            font-size: clamp(2.2rem, 8vw, 3.2rem);
+            font-weight: bold;
+            color: var(--cyan);
+            text-shadow: 0 0 10px var(--cyan), 0 0 30px rgba(0,245,255,0.3);
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+        .rate-mini.winner .rate-mini-val {
+            color: var(--green);
+            text-shadow: 0 0 12px var(--green), 0 0 40px rgba(0,255,65,0.4);
+        }
+        .rate-mini-unit { font-size: 1.2rem; vertical-align: super; }
+        .rate-mini-sub {
+            font-size: 0.52rem;
+            letter-spacing: 2px;
+            color: rgba(0,245,255,0.28);
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+        .rate-mini-badge {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.46rem;
+            letter-spacing: 2px;
+            color: var(--green);
+            border: 1px solid rgba(0,255,65,0.35);
+            padding: 2px 8px;
+            text-transform: uppercase;
+            text-shadow: 0 0 6px rgba(0,255,65,0.4);
+        }
+
+        /* ── Table comparatif ── */
         .cmp-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.78rem;
+            font-size: 0.7rem;
             letter-spacing: 1px;
-            margin: 0;
         }
         .cmp-table th {
-            padding: 10px 16px;
-            font-size: 0.7rem;
+            padding: 7px 14px;
+            font-size: 0.55rem;
             letter-spacing: 3px;
-            border-bottom: 1px solid rgba(0,245,255,0.2);
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(0,245,255,0.18);
             text-align: left;
         }
-        .cmp-table th.la  { color: var(--cyan); }
-        .cmp-table th.lep { color: var(--green); }
+        .cmp-table th.h-la  { color: var(--cyan); }
+        .cmp-table th.h-lep { color: var(--green); }
         .cmp-table td {
-            padding: 9px 16px;
-            border-bottom: 1px solid rgba(0,245,255,0.07);
-            color: rgba(0,245,255,0.7);
-            vertical-align: top;
+            padding: 8px 14px;
+            border-bottom: 1px solid rgba(0,245,255,0.05);
+            color: rgba(0,245,255,0.55);
+            line-height: 1.5;
         }
         .cmp-table td:first-child {
-            color: rgba(0,245,255,0.35);
-            font-size: 0.7rem;
+            color: rgba(0,245,255,0.28);
+            font-size: 0.55rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            width: 34%;
+            width: 30%;
         }
-        .cmp-table td.la  { color: var(--cyan); }
-        .cmp-table td.lep { color: var(--green); }
+        .cmp-table td.v-la  { color: var(--cyan); }
+        .cmp-table td.v-lep { color: var(--green); }
+        .cmp-table td.v-win { font-weight: bold; text-shadow: 0 0 8px currentColor; }
+        .cmp-table td.v-center { text-align: center; color: rgba(0,245,255,0.5); }
         .cmp-table tr:last-child td { border-bottom: none; }
-        .cmp-table .win { font-weight: bold; }
 
+        /* ── Éligibilité ── */
+        .elig-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.68rem;
+            letter-spacing: 1px;
+            margin: 12px 0 8px;
+        }
+        .elig-table th {
+            font-size: 0.52rem;
+            letter-spacing: 3px;
+            color: rgba(0,245,255,0.28);
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-bottom: 1px solid rgba(0,245,255,0.1);
+            text-align: left;
+        }
+        .elig-table td {
+            padding: 7px 14px;
+            border-bottom: 1px solid rgba(0,245,255,0.04);
+            color: rgba(0,245,255,0.5);
+        }
+        .elig-table td:last-child { color: var(--green); text-align: right; }
+        .elig-table tr:last-child td { border-bottom: none; }
+
+        /* ── Diff jaune ── */
+        .cmp-diff {
+            background: rgba(255,230,0,0.03);
+            border: 1px solid rgba(255,230,0,0.2);
+            padding: 14px 16px;
+            text-align: center;
+            margin-top: 12px;
+        }
+        .cmp-diff-label {
+            font-size: 0.5rem;
+            letter-spacing: 3px;
+            color: rgba(255,230,0,0.45);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .cmp-diff-value {
+            font-size: clamp(1.4rem, 5vw, 2rem);
+            font-weight: bold;
+            color: var(--yellow);
+            letter-spacing: 3px;
+            text-shadow: 0 0 14px rgba(255,230,0,0.5);
+        }
+
+        /* ── Verdict ── */
         .verdict-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .verdict-card {
+            border: 1px solid rgba(0,245,255,0.1);
+            background: rgba(0,245,255,0.02);
+            padding: 14px;
+        }
+        .verdict-card.v-win {
+            border-color: rgba(0,255,65,0.22);
+            background: rgba(0,255,65,0.03);
+        }
+        .verdict-card h3 {
+            font-size: 0.52rem;
+            letter-spacing: 3px;
+            color: rgba(0,245,255,0.38);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .verdict-card.v-win h3 { color: rgba(0,255,65,0.55); }
+        .verdict-card p {
+            font-size: 0.68rem;
+            line-height: 1.7;
+            color: rgba(0,245,255,0.5);
+        }
+
+        /* ── Tool links bas de page ── */
+        .tool-links {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-top: 6px;
         }
-        .verdict-card {
+        .tool-link {
+            display: block;
+            text-decoration: none;
             border: 1px solid rgba(0,245,255,0.15);
+            background: var(--panel);
             padding: 16px;
-            background: rgba(0,245,255,0.02);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            position: relative;
         }
-        .verdict-card h3 {
-            font-size: 0.65rem;
-            letter-spacing: 3px;
-            color: rgba(0,245,255,0.5);
-            margin-bottom: 8px;
+        .tool-link::before, .tool-link::after {
+            content: '';
+            position: absolute;
+            width: 12px; height: 12px;
+            border-style: solid;
+            border-color: var(--pink);
         }
-        .verdict-card p {
-            font-size: 0.75rem;
-            line-height: 1.6;
-            color: rgba(0,245,255,0.65);
-        }
-        .verdict-card.highlight {
-            border-color: var(--green);
-            background: rgba(0,255,65,0.03);
-        }
-        .verdict-card.highlight h3 { color: var(--green); }
-
-        .cmp-calc { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
-        .cmp-calc label { font-size: 0.65rem; letter-spacing: 2px; color: rgba(0,245,255,0.4); display: block; margin-bottom: 6px; }
-        .cmp-calc input {
-            background: rgba(0,245,255,0.05);
-            border: 1px solid rgba(0,245,255,0.2);
-            color: var(--cyan);
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            padding: 8px 12px;
-            width: 160px;
-            outline: none;
-        }
-        .cmp-calc input:focus { border-color: var(--cyan); }
-
-        .cmp-results {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 12px;
-            margin-top: 18px;
-        }
-        .cmp-result {
-            border: 1px solid rgba(0,245,255,0.12);
-            padding: 14px 16px;
-            text-align: center;
-        }
-        .cmp-result-label {
-            font-size: 0.6rem;
-            letter-spacing: 3px;
-            color: rgba(0,245,255,0.35);
+        .tool-link::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+        .tool-link::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+        .tool-link:hover { border-color: var(--cyan); box-shadow: 0 0 12px rgba(0,245,255,0.1); }
+        .tool-link.lep-l { border-color: rgba(0,255,65,0.15); }
+        .tool-link.lep-l:hover { border-color: var(--green); box-shadow: 0 0 12px rgba(0,255,65,0.1); }
+        .tool-link-name {
+            font-size: 0.55rem;
+            letter-spacing: 4px;
+            color: rgba(0,245,255,0.38);
             text-transform: uppercase;
             margin-bottom: 6px;
         }
-        .cmp-result-val {
-            font-size: 1.2rem;
-            letter-spacing: 1px;
+        .tool-link.lep-l .tool-link-name { color: rgba(0,255,65,0.45); }
+        .tool-link-rate {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--cyan);
+            line-height: 1.1;
+            text-shadow: 0 0 10px rgba(0,245,255,0.4);
         }
-        .cmp-result-val.la  { color: var(--cyan); }
-        .cmp-result-val.lep { color: var(--green); text-shadow: 0 0 8px rgba(0,255,65,0.4); }
-        .cmp-result-val.diff { color: var(--yellow); }
-
-        .nav-links {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
+        .tool-link.lep-l .tool-link-rate {
+            color: var(--green);
+            text-shadow: 0 0 10px rgba(0,255,65,0.4);
         }
-        .nav-link-card {
-            flex: 1;
-            border: 1px solid rgba(0,245,255,0.15);
-            padding: 16px 20px;
-            text-decoration: none;
-            color: rgba(0,245,255,0.6);
-            font-size: 0.7rem;
-            letter-spacing: 3px;
-            transition: border-color 0.2s, color 0.2s;
-            display: block;
+        .tool-link-desc {
+            font-size: 0.5rem;
+            letter-spacing: 2px;
+            color: rgba(0,245,255,0.25);
+            margin-top: 6px;
+            text-transform: uppercase;
         }
-        .nav-link-card:hover { border-color: var(--cyan); color: var(--cyan); }
-        .nav-link-card .rate { font-size: 1.4rem; display: block; margin-top: 6px; letter-spacing: 0; }
-        .nav-link-card.lep-link { border-color: rgba(0,255,65,0.2); color: rgba(0,255,65,0.6); }
-        .nav-link-card.lep-link:hover { border-color: var(--green); color: var(--green); }
-        .nav-link-card.lep-link .rate { color: var(--green); }
     </style>
 </head>
 <body>
+
     <div class="container">
+
+        <header class="header">
+            <div class="header-tag">// Comparatif Épargne Réglementée //</div>
+            <div class="header-title">LA&nbsp;vs&nbsp;LEP</div>
+            <div class="header-sub">Livret A · L.E.P. · lequel rapporte plus ? &lt;CYBER-BANK_v3.0&gt;</div>
+        </header>
 
         <nav class="page-nav" aria-label="Navigation produits">
             <a href="index.html" class="page-nav-link">LIVRET A</a>
@@ -220,180 +320,214 @@
             <a href="livret-a-vs-lep.html" class="page-nav-link active" aria-current="page">COMPARATIF</a>
         </nav>
 
+        <div class="status-bar" aria-label="Barre de statut">
+            <span><span class="status-dot" aria-hidden="true"></span>CONNEXION SÉCURISÉE</span>
+            <span>DONNÉES · 1ER FÉVRIER 2026</span>
+            <span class="status-btns">
+                <a class="btn-console-toggle" href="#simulateur">&gt;_ SIMULER</a>
+                <a class="btn-console-toggle" href="index.html">LIVRET A</a>
+                <a class="btn-console-toggle" href="lep.html">L.E.P.</a>
+            </span>
+        </div>
+
+        <!-- ── Taux côte à côte ── -->
+        <div class="rates-grid">
+            <div class="rate-mini">
+                <div class="rate-mini-tag">&gt; taux en vigueur &lt;</div>
+                <div class="rate-mini-name">LIVRET A</div>
+                <div>
+                    <span class="rate-mini-val">1,5</span><span class="rate-mini-unit rate-mini-val">%</span>
+                </div>
+                <div class="rate-mini-sub">Plafond · 22 950 €</div>
+                <div class="rate-mini-sub">Ouvert à tous</div>
+            </div>
+            <div class="rate-mini winner">
+                <div class="rate-mini-tag">&gt; taux en vigueur &lt;</div>
+                <div class="rate-mini-name">L.E.P.</div>
+                <div>
+                    <span class="rate-mini-val">2,5</span><span class="rate-mini-unit rate-mini-val">%</span>
+                </div>
+                <div class="rate-mini-sub">Plafond · 10 000 €</div>
+                <div class="rate-mini-badge">★ +67 % de rendement</div>
+            </div>
+        </div>
+
         <!-- ── Tableau comparatif ── -->
-        <div class="panel">
-            <div class="panel-label">// COMPARATIF</div>
+        <div class="inf-panel">
+            <div class="chart-label">&gt;&nbsp;Tableau comparatif&nbsp;&lt;</div>
             <table class="cmp-table" aria-label="Comparaison Livret A et LEP">
                 <thead>
                     <tr>
                         <th></th>
-                        <th class="la">LIVRET A</th>
-                        <th class="lep">L.E.P.</th>
+                        <th class="h-la">LIVRET A</th>
+                        <th class="h-lep">L.E.P.</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>Taux 2026</td>
-                        <td class="la">1,5 %</td>
-                        <td class="lep win">2,5 % ★</td>
+                        <td class="v-la">1,5 %</td>
+                        <td class="v-lep v-win">2,5 % ★</td>
                     </tr>
                     <tr>
-                        <td>Plafond des dépôts</td>
-                        <td class="la win">22 950 € ★</td>
-                        <td class="lep">10 000 €</td>
+                        <td>Plafond dépôts</td>
+                        <td class="v-la v-win">22 950 € ★</td>
+                        <td class="v-lep">10 000 €</td>
                     </tr>
                     <tr>
                         <td>Conditions</td>
-                        <td class="la win">Ouvert à tous ★</td>
-                        <td class="lep">Sous conditions de ressources (RFR)</td>
+                        <td class="v-la v-win">Tous publics ★</td>
+                        <td class="v-lep">Sous conditions RFR</td>
                     </tr>
                     <tr>
-                        <td>Révision du taux</td>
-                        <td class="la">1er fév. / 1er août</td>
-                        <td class="lep">1er fév. / 1er août</td>
+                        <td>Révision taux</td>
+                        <td class="v-la">1er fév. / 1er août</td>
+                        <td class="v-lep">1er fév. / 1er août</td>
                     </tr>
                     <tr>
                         <td>Fiscalité</td>
-                        <td class="la">Exonéré d'impôt</td>
-                        <td class="lep">Exonéré d'impôt</td>
+                        <td class="v-la">Exonéré d'impôt</td>
+                        <td class="v-lep">Exonéré d'impôt</td>
                     </tr>
                     <tr>
                         <td>Garantie</td>
-                        <td class="la">État français</td>
-                        <td class="lep">État français</td>
+                        <td class="v-la">État français</td>
+                        <td class="v-lep">État français</td>
                     </tr>
                     <tr>
-                        <td>Disponibilité des fonds</td>
-                        <td class="la">Immédiate</td>
-                        <td class="lep">Immédiate</td>
+                        <td>Liquidité</td>
+                        <td class="v-la">Immédiate</td>
+                        <td class="v-lep">Immédiate</td>
                     </tr>
                     <tr>
                         <td>Cumul possible</td>
-                        <td colspan="2" style="color:rgba(0,245,255,0.6); text-align:center;">OUI — les deux livrets sont cumulables</td>
+                        <td class="v-center" colspan="2">OUI — les deux livrets sont cumulables</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
         <!-- ── Simulateur comparatif ── -->
-        <div class="panel">
-            <div class="panel-label">// SIMULATEUR COMPARATIF</div>
-            <div class="cmp-calc">
-                <div>
-                    <label for="cmp-capital">CAPITAL (€)</label>
-                    <input type="number" id="cmp-capital" value="5000" min="1" max="10000" step="100">
+        <div class="calc-panel" id="simulateur" aria-label="Simulateur comparatif">
+            <div class="chart-label">&gt;&nbsp;Simulateur comparatif&nbsp;&lt;</div>
+
+            <div class="calc-inputs">
+                <div class="calc-field">
+                    <span class="calc-prompt">&gt;_</span>
+                    <label for="cmp-capital">Capital placé</label>
+                    <input type="number" id="cmp-capital" value="5000" min="1" max="10000" step="100" aria-label="Capital en euros">
+                    <span class="calc-unit">€</span>
                 </div>
-                <div>
-                    <label for="cmp-years">DURÉE (ANNÉES)</label>
-                    <input type="number" id="cmp-years" value="5" min="1" max="30">
-                </div>
-            </div>
-            <div class="cmp-results">
-                <div class="cmp-result">
-                    <div class="cmp-result-label">Gains Livret A</div>
-                    <div class="cmp-result-val la" id="res-la">—</div>
-                </div>
-                <div class="cmp-result">
-                    <div class="cmp-result-label">Gains LEP</div>
-                    <div class="cmp-result-val lep" id="res-lep">—</div>
-                </div>
-                <div class="cmp-result">
-                    <div class="cmp-result-label">Avantage LEP</div>
-                    <div class="cmp-result-val diff" id="res-diff">—</div>
+                <div class="calc-field">
+                    <span class="calc-prompt">&gt;_</span>
+                    <label for="cmp-years">Durée</label>
+                    <input type="number" id="cmp-years" value="5" min="1" max="30" aria-label="Durée en années">
+                    <span class="calc-unit">ANS</span>
                 </div>
             </div>
-            <div style="font-size:0.6rem;letter-spacing:2px;color:rgba(0,245,255,0.25);margin-top:10px;">
-                TAUX EN VIGUEUR CONSTANTS · INTÉRÊTS COMPOSÉS · PLAFOND LEP 10 000 €
+
+            <div class="calc-sep">// résultats //</div>
+
+            <div class="calc-results" style="margin-top:14px;">
+                <div class="calc-result-item">
+                    <div class="calc-result-label">Gains Livret A</div>
+                    <div class="calc-result-value" id="res-la">—</div>
+                </div>
+                <div class="calc-result-item">
+                    <div class="calc-result-label">Gains LEP</div>
+                    <div class="calc-result-value green" id="res-lep">—</div>
+                </div>
+            </div>
+
+            <div class="cmp-diff">
+                <div class="cmp-diff-label">// Avantage LEP sur Livret A //</div>
+                <div class="cmp-diff-value" id="res-diff">—</div>
+            </div>
+
+            <div class="calc-note">
+                Taux en vigueur constants · Intérêts composés · Plafond LEP 10 000 €
             </div>
         </div>
 
-        <!-- ── Conditions LEP ── -->
-        <div class="panel">
-            <div class="panel-label">// CONDITIONS D'ÉLIGIBILITÉ LEP</div>
-            <p style="font-size:0.75rem;line-height:1.7;color:rgba(0,245,255,0.6);margin-bottom:14px;">
-                Le LEP est réservé aux personnes dont le <strong style="color:var(--cyan)">revenu fiscal de référence (RFR)</strong> ne dépasse pas un seuil fixé chaque année. Le RFR figure sur votre avis d'imposition.
+        <!-- ── Conditions éligibilité LEP ── -->
+        <div class="inf-panel" aria-label="Conditions d'éligibilité LEP">
+            <div class="chart-label">&gt;&nbsp;Conditions d'éligibilité LEP&nbsp;&lt;</div>
+            <p style="font-size:0.68rem;line-height:1.7;color:rgba(0,245,255,0.55);margin-bottom:4px;">
+                Le LEP est réservé aux personnes dont le <span style="color:var(--cyan)">revenu fiscal de référence (RFR)</span> ne dépasse pas un seuil annuel. Le RFR figure sur votre avis d'imposition.
             </p>
-            <table class="cmp-table" aria-label="Seuils RFR LEP 2026">
+            <table class="elig-table" aria-label="Seuils RFR LEP 2026">
                 <thead>
                     <tr>
-                        <th style="color:rgba(0,245,255,0.5)">PARTS FISCALES</th>
-                        <th class="lep">RFR MAXIMUM (indicatif 2026)</th>
+                        <th>Parts fiscales</th>
+                        <th style="text-align:right">RFR max (indicatif 2026)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>1 part</td><td class="lep">≤ 22 419 €</td></tr>
-                    <tr><td>1,5 part</td><td class="lep">≤ 28 529 €</td></tr>
-                    <tr><td>2 parts</td><td class="lep">≤ 34 393 €</td></tr>
-                    <tr><td>2,5 parts</td><td class="lep">≤ 40 502 €</td></tr>
+                    <tr><td>1 part</td><td>≤ 22 419 €</td></tr>
+                    <tr><td>1,5 part</td><td>≤ 28 529 €</td></tr>
+                    <tr><td>2 parts</td><td>≤ 34 393 €</td></tr>
+                    <tr><td>2,5 parts</td><td>≤ 40 502 €</td></tr>
                 </tbody>
             </table>
-            <p style="font-size:0.62rem;letter-spacing:1px;color:rgba(0,245,255,0.3);margin-top:10px;">
-                Seuils indicatifs basés sur les revenus 2024. Valeurs officielles : <a href="https://www.service-public.fr/particuliers/vosdroits/F2365" target="_blank" rel="noopener noreferrer" style="color:rgba(0,245,255,0.5)">service-public.fr</a>
+            <p style="font-size:0.55rem;letter-spacing:1px;color:rgba(0,245,255,0.25);margin-top:8px;">
+                Valeurs indicatives basées sur les revenus 2024. Seuils officiels :
+                <a href="https://www.service-public.fr/particuliers/vosdroits/F2365" target="_blank" rel="noopener noreferrer" style="color:rgba(0,245,255,0.4)">service-public.fr</a>
+                ·
+                <a href="https://www.economie.gouv.fr/cedef/livret-epargne-populaire" target="_blank" rel="noopener noreferrer" style="color:rgba(0,245,255,0.4)">economie.gouv.fr</a>
             </p>
         </div>
 
         <!-- ── Verdict ── -->
-        <div class="panel">
-            <div class="panel-label">// NOTRE VERDICT</div>
+        <div class="inf-panel" aria-label="Verdict">
+            <div class="chart-label">&gt;&nbsp;Verdict&nbsp;&lt;</div>
             <div class="verdict-grid">
-                <div class="verdict-card highlight">
-                    <h3>SI VOUS ÊTES ÉLIGIBLE AU LEP</h3>
-                    <p>Privilégiez le LEP en priorité. Avec un taux 67 % supérieur au Livret A, c'est le meilleur livret d'épargne réglementé disponible. Remplissez-le jusqu'au plafond de 10 000 €, puis placez le surplus sur le Livret A.</p>
+                <div class="verdict-card v-win">
+                    <h3>★ Si vous êtes éligible au LEP</h3>
+                    <p>Privilégiez le LEP en priorité. Avec un taux 67 % supérieur, c'est le meilleur livret réglementé disponible. Remplissez-le jusqu'au plafond de 10 000 €, puis placez le surplus sur le Livret A.</p>
                 </div>
                 <div class="verdict-card">
-                    <h3>SI VOUS N'ÊTES PAS ÉLIGIBLE</h3>
-                    <p>Le Livret A reste la référence : garanti par l'État, exonéré d'impôt, plafond de 22 950 € et disponible dans toutes les banques. Complétez avec un LDDS (plafond 12 000 €) pour maximiser votre épargne réglementée.</p>
+                    <h3>Si vous n'êtes pas éligible</h3>
+                    <p>Le Livret A reste la référence : garanti, exonéré d'impôt, plafond de 22 950 €. Complétez avec un LDDS (plafond 12 000 €) pour maximiser votre épargne réglementée.</p>
                 </div>
             </div>
         </div>
 
+        <!-- ── Accès aux outils ── -->
+        <div class="calc-panel" aria-label="Accès aux outils">
+            <div class="chart-label">&gt;&nbsp;Outils dédiés&nbsp;&lt;</div>
+            <div class="tool-links">
+                <a href="index.html" class="tool-link" aria-label="Outil Livret A">
+                    <div class="tool-link-name">Livret A</div>
+                    <div class="tool-link-rate">1,5 %</div>
+                    <div class="tool-link-desc">Simulateur · historique · prédiction</div>
+                </a>
+                <a href="lep.html" class="tool-link lep-l" aria-label="Outil LEP">
+                    <div class="tool-link-name">L.E.P.</div>
+                    <div class="tool-link-rate">2,5 %</div>
+                    <div class="tool-link-desc">Simulateur · plafond 10 000 € · taux live</div>
+                </a>
+            </div>
+        </div>
+
         <!-- ── SEO ── -->
-        <section class="seo-content" aria-label="À propos du comparatif">
+        <section class="seo-content" aria-label="Guide comparatif Livret A vs LEP">
             <h1>Livret A vs LEP : lequel choisir en 2026 ?</h1>
 
             <h2>Des taux différents pour des profils différents</h2>
-            <p>
-                En 2026, le <strong>Livret d'Épargne Populaire (LEP)</strong> affiche un taux de <strong>2,5 %</strong>, contre <strong>1,5 %</strong> pour le Livret A — soit un rendement supérieur de 67 %. Les deux livrets sont révisés le 1er février et le 1er août de chaque année par arrêté ministériel, sur proposition de la <a href="https://www.banque-france.fr/fr/statistiques/taux-et-cours/taux-reglementes" target="_blank" rel="noopener noreferrer">Banque de France</a>.
-            </p>
+            <p>En 2026, le <strong>Livret d'Épargne Populaire (LEP)</strong> affiche un taux de <strong>2,5 %</strong> contre <strong>1,5 %</strong> pour le Livret A — soit 67 % de rendement supplémentaire. Les deux livrets sont révisés le 1er février et le 1er août par arrêté ministériel, sur proposition de la <a href="https://www.banque-france.fr/fr/statistiques/taux-et-cours/taux-reglementes" target="_blank" rel="noopener noreferrer">Banque de France</a>.</p>
 
             <h2>Peut-on cumuler Livret A et LEP ?</h2>
-            <p>
-                Oui. Un même épargnant peut détenir simultanément un Livret A et un LEP, à condition de respecter les conditions de ressources du LEP. La stratégie optimale consiste à alimenter le LEP en priorité jusqu'à son plafond de 10 000 €, puis à utiliser le Livret A pour les sommes supplémentaires.
-            </p>
-
-            <h2>Conditions d'éligibilité au LEP</h2>
-            <p>
-                Le LEP est soumis à des conditions de ressources vérifiées chaque année sur présentation de l'avis d'imposition. Le revenu fiscal de référence (RFR) doit être inférieur à un plafond qui varie selon le nombre de parts fiscales. Ces seuils sont publiés par le <a href="https://www.service-public.fr/particuliers/vosdroits/F2365" target="_blank" rel="noopener noreferrer">Service Public</a> et l'<a href="https://www.economie.gouv.fr/cedef/livret-epargne-populaire" target="_blank" rel="noopener noreferrer">Économie.gouv.fr</a>.
-            </p>
-
-            <h2>FAQ — Livret A vs LEP</h2>
+            <p>Oui. Un même épargnant peut détenir simultanément un Livret A et un LEP, sous réserve de remplir les conditions de ressources du LEP. La stratégie optimale : alimenter le LEP jusqu'à son plafond de 10 000 €, puis utiliser le Livret A pour les sommes supplémentaires.</p>
 
             <h2>Peut-on avoir un Livret A et un LEP en même temps ?</h2>
-            <p>Oui. Les deux livrets sont cumulables. Si vous êtes éligible au LEP, il est conseillé de le privilégier jusqu'à son plafond de 10 000 €, puis de compléter avec le Livret A.</p>
+            <p>Oui. Les deux livrets sont cumulables. Si vous êtes éligible au LEP, il est conseillé de le privilégier jusqu'à son plafond (10 000 €), puis de compléter avec le Livret A (plafond 22 950 €).</p>
 
             <h2>Le LEP rapporte-t-il plus que le Livret A ?</h2>
             <p>Oui, en 2026 le LEP offre 2,5 % contre 1,5 % pour le Livret A. Sur 10 000 € placés pendant 5 ans, l'écart de gains est d'environ 541 €.</p>
 
             <h2>Le LEP est-il garanti par l'État ?</h2>
-            <p>Oui. Comme le Livret A, le LEP est un livret réglementé garanti par l'État français. Les fonds sont disponibles à tout moment et les intérêts sont exonérés d'impôt et de prélèvements sociaux.</p>
+            <p>Oui. Comme le Livret A, le LEP est un livret réglementé garanti par l'<a href="https://www.economie.gouv.fr/cedef/livret-epargne-populaire" target="_blank" rel="noopener noreferrer">État français</a>. Les fonds sont disponibles à tout moment et les intérêts sont exonérés d'impôt et de prélèvements sociaux.</p>
         </section>
-
-        <!-- ── Liens vers les outils ── -->
-        <div class="panel" style="margin-top:0;">
-            <div class="panel-label">// OUTILS DÉDIÉS</div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-link-card">
-                    LIVRET A
-                    <span class="rate" style="color:var(--cyan);">1,5 %</span>
-                    Simulateur · historique · prédiction
-                </a>
-                <a href="lep.html" class="nav-link-card lep-link">
-                    L.E.P.
-                    <span class="rate">2,5 %</span>
-                    Simulateur · plafond 10 000 € · taux live
-                </a>
-            </div>
-        </div>
 
         <a class="btn-coffee" href="https://buymeacoffee.com/neurocash"
            target="_blank" rel="noopener noreferrer"
@@ -416,7 +550,7 @@
             const years   = parseInt(document.getElementById('cmp-years').value)    || 0;
             if (!capital || !years) return;
 
-            const gainLA  = capital * (Math.pow(1 + LA_RATE / 100, years)  - 1);
+            const gainLA  = capital * (Math.pow(1 + LA_RATE  / 100, years) - 1);
             const gainLEP = capital * (Math.pow(1 + LEP_RATE / 100, years) - 1);
             const diff    = gainLEP - gainLA;
 
@@ -427,6 +561,7 @@
 
         document.getElementById('cmp-capital').addEventListener('input', compute);
         document.getElementById('cmp-years').addEventListener('input', compute);
+        document.addEventListener('DOMContentLoaded', compute);
         compute();
     </script>
 </body>
