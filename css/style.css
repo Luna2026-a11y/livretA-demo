@@ -362,6 +362,123 @@ body::after {
 
 .chart-tooltip strong { color: var(--green); }
 
+/* ── Calculateur ── */
+.calc-panel {
+    background: var(--panel);
+    border: 1px solid rgba(0, 245, 255, 0.25);
+    padding: 16px 16px 18px;
+    margin-top: 22px;
+    position: relative;
+}
+
+.calc-panel::before, .calc-panel::after {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    border-color: rgba(255, 0, 170, 0.4);
+    border-style: solid;
+}
+.calc-panel::before { top: -1px;    left:  -1px; border-width: 2px 0 0 2px; }
+.calc-panel::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+.calc-inputs {
+    display: flex;
+    gap: 16px;
+    margin: 14px 0 18px;
+    flex-wrap: wrap;
+}
+
+.calc-field {
+    flex: 1;
+    min-width: 140px;
+}
+
+.calc-field label {
+    display: block;
+    font-size: 0.55rem;
+    letter-spacing: 3px;
+    color: rgba(0, 245, 255, 0.4);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.calc-input-wrap {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(0, 245, 255, 0.3);
+    background: var(--console-bg);
+    padding: 6px 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.calc-input-wrap:focus-within {
+    border-color: var(--cyan);
+    box-shadow: 0 0 8px rgba(0, 245, 255, 0.2);
+}
+
+.calc-input-wrap input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--cyan);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    width: 100%;
+}
+
+.calc-unit {
+    font-size: 0.65rem;
+    color: var(--pink);
+    letter-spacing: 1px;
+    margin-left: 6px;
+    flex-shrink: 0;
+}
+
+.calc-results {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.calc-result-item {
+    flex: 1;
+    min-width: 140px;
+    background: rgba(0, 245, 255, 0.03);
+    border: 1px solid rgba(0, 245, 255, 0.1);
+    padding: 12px 14px;
+}
+
+.calc-result-label {
+    font-size: 0.55rem;
+    letter-spacing: 3px;
+    color: rgba(0, 245, 255, 0.4);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.calc-result-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(0, 245, 255, 0.4);
+}
+
+.calc-result-value.green {
+    color: var(--green);
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+}
+
+.calc-note {
+    margin-top: 12px;
+    font-size: 0.52rem;
+    color: rgba(0, 245, 255, 0.2);
+    letter-spacing: 1px;
+    line-height: 1.6;
+}
+
 /* ── Footer ── */
 .footer {
     text-align: center;

@@ -100,6 +100,45 @@
             </div>
         </div>
 
+        <div class="calc-panel" aria-label="Simulateur d'épargne Livret A">
+            <div class="chart-label">&gt;&nbsp;Simulateur d'épargne&nbsp;&lt;</div>
+
+            <div class="calc-inputs">
+                <div class="calc-field">
+                    <label for="calc-amount">Montant placé</label>
+                    <div class="calc-input-wrap">
+                        <input type="number" id="calc-amount" value="10000"
+                               min="1" max="22950" aria-label="Montant en euros">
+                        <span class="calc-unit">€</span>
+                    </div>
+                </div>
+                <div class="calc-field">
+                    <label for="calc-years">Durée</label>
+                    <div class="calc-input-wrap">
+                        <input type="number" id="calc-years" value="3"
+                               min="1" max="30" aria-label="Durée en années">
+                        <span class="calc-unit">ans</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calc-results">
+                <div class="calc-result-item">
+                    <div class="calc-result-label">Intérêts générés</div>
+                    <div class="calc-result-value green" id="calc-interest">0,00 €</div>
+                </div>
+                <div class="calc-result-item">
+                    <div class="calc-result-label">Capital final</div>
+                    <div class="calc-result-value" id="calc-total">0,00 €</div>
+                </div>
+            </div>
+
+            <p class="calc-note">
+                Calcul indicatif — taux 1,5 % constant, intérêts capitalisés annuellement.
+                Livret A exonéré d'impôt et de prélèvements sociaux. Plafond&nbsp;: 22 950 €.
+            </p>
+        </div>
+
         <footer class="footer">
             Source&nbsp;: Banque de France — Caisse des Dépôts et Consignations<br>
             Le taux du Livret A est fixé par arrêté ministériel<br>
@@ -142,6 +181,7 @@
     <script src="js/audio.js"></script>
     <script src="js/chart.js"></script>
     <script src="js/console.js"></script>
+    <script src="js/calculator.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
