@@ -902,6 +902,63 @@ body::after {
     padding-top: 10px;
 }
 
+/* ── Onglets simulateur ── */
+.calc-tabs {
+    display: flex;
+    border: 1px solid rgba(0, 245, 255, 0.15);
+    margin-bottom: 16px;
+}
+
+.calc-tab {
+    flex: 1;
+    padding: 9px;
+    background: transparent;
+    border: none;
+    border-right: 1px solid rgba(0, 245, 255, 0.15);
+    color: rgba(0, 245, 255, 0.3);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.55rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s, background 0.2s;
+}
+
+.calc-tab:last-child { border-right: none; }
+
+.calc-tab:hover:not(.active) { color: rgba(0, 245, 255, 0.6); }
+
+.calc-tab.active {
+    color: var(--cyan);
+    background: rgba(0, 245, 255, 0.06);
+    box-shadow: inset 0 -2px 0 var(--cyan);
+}
+
+/* ── Résultats objectif ── */
+.obj-result-main {
+    text-align: center;
+    padding: 18px 16px 14px;
+    background: rgba(0, 255, 65, 0.04);
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    margin-bottom: 12px;
+}
+
+.obj-result-main-label {
+    font-size: 0.48rem;
+    letter-spacing: 4px;
+    color: rgba(0, 245, 255, 0.35);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.obj-result-main-value {
+    font-size: clamp(1.6rem, 6vw, 2.4rem);
+    font-weight: bold;
+    color: var(--green);
+    letter-spacing: 3px;
+    text-shadow: 0 0 12px rgba(0, 255, 65, 0.5), 0 0 30px rgba(0, 255, 65, 0.2);
+}
+
 /* ── Buy me a coffee ── */
 .btn-coffee {
     display: block;
