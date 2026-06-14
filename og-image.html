@@ -16,29 +16,26 @@
   }
 
   /* Grille de fond */
-  body::before {
-    content: '';
+  .grid {
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(rgba(0,245,255,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,245,255,0.05) 1px, transparent 1px);
+      linear-gradient(rgba(0,245,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.04) 1px, transparent 1px);
     background-size: 60px 60px;
     z-index: 0;
   }
 
   /* Scanlines */
-  body::after {
-    content: '';
+  .scan {
     position: absolute;
     inset: 0;
     background: repeating-linear-gradient(
       0deg,
-      transparent, transparent 2px,
-      rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px
+      transparent, transparent 3px,
+      rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px
     );
     z-index: 1;
-    pointer-events: none;
   }
 
   .wrap {
@@ -48,111 +45,135 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 48px 64px;
+    padding: 44px 60px;
   }
 
-  /* Bordure néon */
+  /* Bordure */
   .frame {
     position: absolute;
-    inset: 16px;
-    border: 1px solid rgba(0,245,255,0.25);
+    inset: 14px;
+    border: 1px solid rgba(0,245,255,0.3);
     z-index: 2;
     pointer-events: none;
   }
-  .frame::before {
-    content: '';
-    position: absolute;
-    inset: 4px;
-    border: 1px solid rgba(0,245,255,0.1);
-  }
 
-  /* Coins décoratifs */
   .corner {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     border-color: #00f5ff;
     border-style: solid;
   }
-  .corner.tl { top: 16px; left: 16px;  border-width: 2px 0 0 2px; }
-  .corner.tr { top: 16px; right: 16px; border-width: 2px 2px 0 0; }
-  .corner.bl { bottom: 16px; left: 16px;  border-width: 0 0 2px 2px; }
-  .corner.br { bottom: 16px; right: 16px; border-width: 0 2px 2px 0; }
+  .corner.tl { top: 14px; left: 14px;  border-width: 2px 0 0 2px; box-shadow: -2px -2px 8px rgba(0,245,255,0.4); }
+  .corner.tr { top: 14px; right: 14px; border-width: 2px 2px 0 0; box-shadow: 2px -2px 8px rgba(0,245,255,0.4); }
+  .corner.bl { bottom: 14px; left: 14px;  border-width: 0 0 2px 2px; box-shadow: -2px 2px 8px rgba(0,245,255,0.4); }
+  .corner.br { bottom: 14px; right: 14px; border-width: 0 2px 2px 0; box-shadow: 2px 2px 8px rgba(0,245,255,0.4); }
 
-  /* En-tête */
-  .header {
+  /* Lueurs d'ambiance */
+  .glow-l {
+    position: absolute; left: -80px; top: 40%;
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(0,245,255,0.07) 0%, transparent 70%);
+    z-index: 0;
+  }
+  .glow-r {
+    position: absolute; right: -80px; top: 30%;
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(255,0,170,0.07) 0%, transparent 70%);
+    z-index: 0;
+  }
+
+  /* ── Top bar ── */
+  .topbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-bottom: 32px;
   }
 
   .logo {
-    font-size: 22px;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: #00f5ff;
-    text-shadow: 0 0 12px #00f5ff, 0 0 30px rgba(0,245,255,0.4);
+    font-size: 20px;
+    letter-spacing: 7px;
+    color: #ffffff;
+    text-shadow: 0 0 14px rgba(255,255,255,0.6);
   }
-  .logo span {
-    color: #ff00aa;
-    text-shadow: 0 0 12px #ff00aa, 0 0 30px rgba(255,0,170,0.4);
-  }
+  .logo em { color: #ff00aa; font-style: normal; text-shadow: 0 0 14px #ff00aa; }
 
   .badge {
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 3px;
-    color: rgba(0,245,255,0.5);
-    border: 1px solid rgba(0,245,255,0.2);
-    padding: 4px 12px;
+    color: rgba(0,245,255,0.6);
+    border: 1px solid rgba(0,245,255,0.25);
+    padding: 5px 14px;
   }
 
-  /* Zone centrale */
+  /* ── Titre principal (headline) ── */
+  .headline {
+    font-size: 42px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    color: #ffffff;
+    text-shadow: 0 0 20px rgba(255,255,255,0.5);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .headline span {
+    color: #00ff41;
+    text-shadow: 0 0 16px #00ff41, 0 0 40px rgba(0,255,65,0.4);
+  }
+
+  .sub {
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 28px;
+  }
+
+  /* ── Zone centrale ── */
   .center {
     display: flex;
     align-items: flex-end;
-    gap: 80px;
+    gap: 60px;
+    flex: 1;
   }
 
-  .rate-block {}
+  .rate-block { flex-shrink: 0; }
 
   .rate-label {
-    font-size: 13px;
+    font-size: 11px;
     letter-spacing: 4px;
-    color: rgba(0,245,255,0.55);
-    margin-bottom: 8px;
+    color: rgba(0,245,255,0.5);
+    margin-bottom: 6px;
   }
 
   .rate-value {
-    font-size: 130px;
+    font-size: 118px;
     line-height: 1;
     font-weight: bold;
     color: #00ff41;
-    text-shadow: 0 0 20px #00ff41, 0 0 60px rgba(0,255,65,0.5), 0 0 120px rgba(0,255,65,0.2);
+    text-shadow: 0 0 24px #00ff41, 0 0 70px rgba(0,255,65,0.45);
     letter-spacing: -4px;
   }
-
   .rate-unit {
-    font-size: 48px;
+    font-size: 44px;
     color: #00ff41;
-    text-shadow: 0 0 20px #00ff41;
+    text-shadow: 0 0 18px #00ff41;
     vertical-align: super;
-    margin-left: 4px;
   }
 
-  .rate-date {
-    font-size: 12px;
+  .rate-since {
+    font-size: 11px;
     letter-spacing: 2px;
-    color: rgba(0,245,255,0.45);
-    margin-top: 10px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 8px;
   }
 
-  /* Stats secondaires */
+  /* ── Stats ── */
   .stats {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding-bottom: 8px;
+    gap: 18px;
+    padding-bottom: 6px;
   }
 
   .stat {
@@ -161,81 +182,70 @@
   }
 
   .stat-label {
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 3px;
-    color: rgba(0,245,255,0.4);
+    color: rgba(255,255,255,0.35);
     text-transform: uppercase;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
 
   .stat-value {
-    font-size: 20px;
+    font-size: 17px;
     letter-spacing: 1px;
+    color: #ffffff;
   }
+  .stat-value.pink   { color: #ff00aa; text-shadow: 0 0 8px #ff00aa; }
+  .stat-value.yellow { color: #ffe600; text-shadow: 0 0 8px #ffe600; }
+  .stat-value.cyan   { color: #00f5ff; text-shadow: 0 0 8px #00f5ff; }
 
-  .stat-value.pink { color: #ff00aa; text-shadow: 0 0 10px #ff00aa; }
-  .stat-value.cyan { color: #00f5ff; text-shadow: 0 0 10px #00f5ff; }
-  .stat-value.yellow { color: #ffe600; text-shadow: 0 0 10px #ffe600; }
-
-  /* Pied */
+  /* ── Footer ── */
   .footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: 28px;
   }
 
-  .tagline {
-    font-size: 13px;
+  /* CTA bien visible */
+  .cta {
+    background: #00ff41;
+    color: #050510;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 15px;
+    font-weight: bold;
     letter-spacing: 3px;
-    color: rgba(0,245,255,0.4);
+    padding: 12px 28px;
+    border: none;
+    text-transform: uppercase;
+    box-shadow: 0 0 20px rgba(0,255,65,0.5), 0 0 40px rgba(0,255,65,0.2);
   }
 
   .url {
-    font-size: 14px;
+    font-size: 15px;
     letter-spacing: 3px;
     color: #ff00aa;
-    text-shadow: 0 0 10px rgba(255,0,170,0.5);
+    text-shadow: 0 0 12px rgba(255,0,170,0.6);
   }
 
   .pills {
     display: flex;
-    gap: 12px;
+    gap: 10px;
   }
 
   .pill {
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 2px;
-    border: 1px solid rgba(0,245,255,0.2);
+    border: 1px solid rgba(0,245,255,0.25);
     padding: 4px 10px;
-    color: rgba(0,245,255,0.5);
-  }
-
-  /* Lueur d'ambiance */
-  .glow-left {
-    position: absolute;
-    left: -100px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(0,245,255,0.06) 0%, transparent 70%);
-    z-index: 0;
-  }
-  .glow-right {
-    position: absolute;
-    right: -100px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(255,0,170,0.06) 0%, transparent 70%);
-    z-index: 0;
+    color: rgba(0,245,255,0.55);
   }
 </style>
 </head>
 <body>
-  <div class="glow-left"></div>
-  <div class="glow-right"></div>
+  <div class="grid"></div>
+  <div class="scan"></div>
+  <div class="glow-l"></div>
+  <div class="glow-r"></div>
   <div class="frame"></div>
   <div class="corner tl"></div>
   <div class="corner tr"></div>
@@ -243,28 +253,31 @@
   <div class="corner br"></div>
 
   <div class="wrap">
-    <div class="header">
-      <div class="logo">NEURO<span>CASH</span></div>
-      <div class="badge">ÉPARGNE RÉGLEMENTÉE · DONNÉES OFFICIELLES</div>
+    <div class="topbar">
+      <div class="logo">NEURO<em>CASH</em></div>
+      <div class="badge">DONNÉES OFFICIELLES · TEMPS RÉEL</div>
     </div>
+
+    <div class="headline">Taux Livret A 2026 : <span>1,5 %</span></div>
+    <div class="sub">ARRÊTÉ MINISTÉRIEL · MIS À JOUR À CHAQUE RÉVISION</div>
 
     <div class="center">
       <div class="rate-block">
-        <div class="rate-label">// TAUX LIVRET A EN VIGUEUR</div>
+        <div class="rate-label">// TAUX EN VIGUEUR</div>
         <div>
           <span class="rate-value">1,5</span><span class="rate-unit">%</span>
         </div>
-        <div class="rate-date">DEPUIS LE 1ER FÉVRIER 2026 · ARRÊTÉ MINISTÉRIEL</div>
+        <div class="rate-since">DEPUIS LE 1ER FÉVRIER 2026</div>
       </div>
 
       <div class="stats">
         <div class="stat">
-          <div class="stat-label">Inflation (HICP France)</div>
-          <div class="stat-value pink">live · Eurostat</div>
+          <div class="stat-label">Inflation réelle (Eurostat)</div>
+          <div class="stat-value pink">live · HICP France</div>
         </div>
         <div class="stat">
-          <div class="stat-label">Prédiction prochain taux</div>
-          <div class="stat-value yellow">formule BdF · 1er août 2026</div>
+          <div class="stat-label">Prédiction prochain taux · 1er août 2026</div>
+          <div class="stat-value yellow">formule officielle BdF</div>
         </div>
         <div class="stat">
           <div class="stat-label">LEP · Livret d'Épargne Populaire</div>
@@ -277,8 +290,9 @@
       <div class="pills">
         <div class="pill">SIMULATEUR</div>
         <div class="pill">HISTORIQUE 10 ANS</div>
-        <div class="pill">TAUX RÉEL</div>
+        <div class="pill">TAUX RÉEL VS INFLATION</div>
       </div>
+      <div class="cta">▶ SIMULER GRATUITEMENT</div>
       <div class="url">neurocash.fr</div>
     </div>
   </div>
