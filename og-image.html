@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1200px;
+    height: 630px;
+    overflow: hidden;
+    background: #050510;
+    font-family: 'Courier New', Courier, monospace;
+    color: #00f5ff;
+    position: relative;
+  }
+
+  /* Grille de fond */
+  body::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+
+  /* Scanlines */
+  body::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent, transparent 2px,
+      rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px 64px;
+  }
+
+  /* Bordure néon */
+  .frame {
+    position: absolute;
+    inset: 16px;
+    border: 1px solid rgba(0,245,255,0.25);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .frame::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgba(0,245,255,0.1);
+  }
+
+  /* Coins décoratifs */
+  .corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-color: #00f5ff;
+    border-style: solid;
+  }
+  .corner.tl { top: 16px; left: 16px;  border-width: 2px 0 0 2px; }
+  .corner.tr { top: 16px; right: 16px; border-width: 2px 2px 0 0; }
+  .corner.bl { bottom: 16px; left: 16px;  border-width: 0 0 2px 2px; }
+  .corner.br { bottom: 16px; right: 16px; border-width: 0 2px 2px 0; }
+
+  /* En-tête */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 22px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #00f5ff;
+    text-shadow: 0 0 12px #00f5ff, 0 0 30px rgba(0,245,255,0.4);
+  }
+  .logo span {
+    color: #ff00aa;
+    text-shadow: 0 0 12px #ff00aa, 0 0 30px rgba(255,0,170,0.4);
+  }
+
+  .badge {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: rgba(0,245,255,0.5);
+    border: 1px solid rgba(0,245,255,0.2);
+    padding: 4px 12px;
+  }
+
+  /* Zone centrale */
+  .center {
+    display: flex;
+    align-items: flex-end;
+    gap: 80px;
+  }
+
+  .rate-block {}
+
+  .rate-label {
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: rgba(0,245,255,0.55);
+    margin-bottom: 8px;
+  }
+
+  .rate-value {
+    font-size: 130px;
+    line-height: 1;
+    font-weight: bold;
+    color: #00ff41;
+    text-shadow: 0 0 20px #00ff41, 0 0 60px rgba(0,255,65,0.5), 0 0 120px rgba(0,255,65,0.2);
+    letter-spacing: -4px;
+  }
+
+  .rate-unit {
+    font-size: 48px;
+    color: #00ff41;
+    text-shadow: 0 0 20px #00ff41;
+    vertical-align: super;
+    margin-left: 4px;
+  }
+
+  .rate-date {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: rgba(0,245,255,0.45);
+    margin-top: 10px;
+  }
+
+  /* Stats secondaires */
+  .stats {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 8px;
+  }
+
+  .stat {
+    border-left: 2px solid rgba(0,245,255,0.2);
+    padding-left: 16px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(0,245,255,0.4);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+
+  .stat-value.pink { color: #ff00aa; text-shadow: 0 0 10px #ff00aa; }
+  .stat-value.cyan { color: #00f5ff; text-shadow: 0 0 10px #00f5ff; }
+  .stat-value.yellow { color: #ffe600; text-shadow: 0 0 10px #ffe600; }
+
+  /* Pied */
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .tagline {
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: rgba(0,245,255,0.4);
+  }
+
+  .url {
+    font-size: 14px;
+    letter-spacing: 3px;
+    color: #ff00aa;
+    text-shadow: 0 0 10px rgba(255,0,170,0.5);
+  }
+
+  .pills {
+    display: flex;
+    gap: 12px;
+  }
+
+  .pill {
+    font-size: 10px;
+    letter-spacing: 2px;
+    border: 1px solid rgba(0,245,255,0.2);
+    padding: 4px 10px;
+    color: rgba(0,245,255,0.5);
+  }
+
+  /* Lueur d'ambiance */
+  .glow-left {
+    position: absolute;
+    left: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0,245,255,0.06) 0%, transparent 70%);
+    z-index: 0;
+  }
+  .glow-right {
+    position: absolute;
+    right: -100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,0,170,0.06) 0%, transparent 70%);
+    z-index: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="glow-left"></div>
+  <div class="glow-right"></div>
+  <div class="frame"></div>
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+
+  <div class="wrap">
+    <div class="header">
+      <div class="logo">NEURO<span>CASH</span></div>
+      <div class="badge">ÉPARGNE RÉGLEMENTÉE · DONNÉES OFFICIELLES</div>
+    </div>
+
+    <div class="center">
+      <div class="rate-block">
+        <div class="rate-label">// TAUX LIVRET A EN VIGUEUR</div>
+        <div>
+          <span class="rate-value">1,5</span><span class="rate-unit">%</span>
+        </div>
+        <div class="rate-date">DEPUIS LE 1ER FÉVRIER 2026 · ARRÊTÉ MINISTÉRIEL</div>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">Inflation (HICP France)</div>
+          <div class="stat-value pink">live · Eurostat</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Prédiction prochain taux</div>
+          <div class="stat-value yellow">formule BdF · 1er août 2026</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">LEP · Livret d'Épargne Populaire</div>
+          <div class="stat-value cyan">2,5 % · plafond 10 000 €</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="pills">
+        <div class="pill">SIMULATEUR</div>
+        <div class="pill">HISTORIQUE 10 ANS</div>
+        <div class="pill">TAUX RÉEL</div>
+      </div>
+      <div class="url">neurocash.fr</div>
+    </div>
+  </div>
+</body>
+</html>
