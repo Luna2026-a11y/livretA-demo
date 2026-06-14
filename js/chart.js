@@ -7,9 +7,9 @@ function initChart() {
     const END      = new Date('2026-12-01');
     const TOTAL_MS = END - START;
     const MIN_R    = 0;
-    const MAX_R    = 3.5;
 
-    let geo = {};
+    let geo    = {};
+    let MAX_R  = 3.5;
 
     function xOf(dateStr) {
         return geo.PAD.left + ((new Date(dateStr) - START) / TOTAL_MS) * geo.cW;
@@ -20,6 +20,15 @@ function initChart() {
     }
 
     function draw() {
+        const inflHist = window.INFLATION_HISTORY || [];
+
+        // Dynamic Y scale
+        const maxLivret = Math.max.apply(null, HISTORY.map(function (p) { return p.rate; }));
+        const maxInflat = inflHist.length
+            ? Math.max.apply(null, inflHist.map(function (p) { return p.rate; }))
+            : 0;
+        MAX_R = Math.ceil(Math.max(maxLivret, maxInflat, 3.5) * 2) / 2;
+
         const dpr = window.devicePixelRatio || 1;
         const W   = canvas.offsetWidth;
         const H   = canvas.offsetHeight;
@@ -37,18 +46,19 @@ function initChart() {
         ctx.fillStyle = '#020210';
         ctx.fillRect(0, 0, W, H);
 
-        // Horizontal grid + Y labels
+        // Horizontal grid + Y labels (dynamic)
         ctx.font = '9px Courier New';
         ctx.textAlign = 'right';
         ctx.textBaseline = 'middle';
-        [0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5].forEach(function (r) {
-            const y = yOf(r);
+        for (let r = 0; r <= MAX_R + 0.01; r += 0.5) {
+            const rv = Math.round(r * 10) / 10;
+            const y  = yOf(rv);
             ctx.strokeStyle = 'rgba(0,245,255,0.07)';
-            ctx.lineWidth = 1;
+            ctx.lineWidth   = 1;
             ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(W - PAD.right, y); ctx.stroke();
             ctx.fillStyle = 'rgba(0,245,255,0.35)';
-            ctx.fillText(r.toFixed(1) + '%', PAD.left - 4, y);
-        });
+            ctx.fillText(rv.toFixed(1) + '%', PAD.left - 4, y);
+        }
 
         // Vertical grid + X labels
         ctx.font = '9px Courier New';
@@ -57,7 +67,7 @@ function initChart() {
         for (let yr = 2016; yr <= 2026; yr++) {
             const x = xOf(yr + '-01-01');
             ctx.strokeStyle = 'rgba(0,245,255,0.05)';
-            ctx.lineWidth = 1;
+            ctx.lineWidth   = 1;
             ctx.beginPath(); ctx.moveTo(x, PAD.top); ctx.lineTo(x, H - PAD.bottom); ctx.stroke();
             ctx.fillStyle = 'rgba(0,245,255,0.3)';
             ctx.fillText(yr, x + cW / 22, H - PAD.bottom + 4);
@@ -67,7 +77,37 @@ function initChart() {
         const todayX   = Math.min(xOf(todayStr), W - PAD.right);
         const lastRate = HISTORY[HISTORY.length - 1].rate;
 
-        // Gradient fill
+        // ── Inflation curve (draw first, behind Livret A) ──
+        if (inflHist.length > 1) {
+            ctx.beginPath();
+            ctx.moveTo(xOf(inflHist[0].date), yOf(inflHist[0].rate));
+            for (let i = 1; i < inflHist.length; i++) {
+                ctx.lineTo(xOf(inflHist[i].date), yOf(inflHist[i].rate));
+            }
+            ctx.strokeStyle = 'rgba(255, 0, 170, 0.55)';
+            ctx.shadowColor  = 'rgba(255, 0, 170, 0.3)';
+            ctx.shadowBlur   = 4;
+            ctx.lineWidth    = 1.5;
+            ctx.stroke();
+            ctx.shadowBlur   = 0;
+
+            // Fill under inflation curve
+            ctx.beginPath();
+            ctx.moveTo(xOf(inflHist[0].date), H - PAD.bottom);
+            ctx.lineTo(xOf(inflHist[0].date), yOf(inflHist[0].rate));
+            for (let i = 1; i < inflHist.length; i++) {
+                ctx.lineTo(xOf(inflHist[i].date), yOf(inflHist[i].rate));
+            }
+            ctx.lineTo(xOf(inflHist[inflHist.length - 1].date), H - PAD.bottom);
+            ctx.closePath();
+            const gradInf = ctx.createLinearGradient(0, PAD.top, 0, H - PAD.bottom);
+            gradInf.addColorStop(0, 'rgba(255,0,170,0.07)');
+            gradInf.addColorStop(1, 'rgba(255,0,170,0.00)');
+            ctx.fillStyle = gradInf;
+            ctx.fill();
+        }
+
+        // ── Livret A gradient fill ──
         ctx.beginPath();
         ctx.moveTo(PAD.left, H - PAD.bottom);
         ctx.lineTo(PAD.left, yOf(HISTORY[0].rate));
@@ -86,7 +126,7 @@ function initChart() {
         ctx.fillStyle = grad;
         ctx.fill();
 
-        // Step line
+        // ── Livret A step line ──
         ctx.strokeStyle = '#00ff41';
         ctx.shadowColor = '#00ff41';
         ctx.shadowBlur  = 5;
@@ -111,7 +151,7 @@ function initChart() {
             ctx.shadowColor = '#00ff41';
             ctx.shadowBlur  = 10;
             ctx.fill();
-            ctx.shadowBlur = 0;
+            ctx.shadowBlur  = 0;
         });
 
         // Current dot (pink)
@@ -121,9 +161,43 @@ function initChart() {
         ctx.shadowColor = '#ff00aa';
         ctx.shadowBlur  = 14;
         ctx.fill();
-        ctx.shadowBlur = 0;
+        ctx.shadowBlur  = 0;
+
+        // ── Legend ──
+        const lx = W - PAD.right - 4;
+        const ly = PAD.top + 6;
+        ctx.font      = '8px Courier New';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+
+        ctx.beginPath();
+        ctx.moveTo(lx - 52, ly);
+        ctx.lineTo(lx - 36, ly);
+        ctx.strokeStyle = '#00ff41';
+        ctx.shadowColor = '#00ff41';
+        ctx.shadowBlur  = 4;
+        ctx.lineWidth   = 2;
+        ctx.stroke();
+        ctx.shadowBlur  = 0;
+        ctx.fillStyle   = 'rgba(0,245,255,0.5)';
+        ctx.fillText('LIVRET A', lx, ly);
+
+        if (inflHist.length) {
+            ctx.beginPath();
+            ctx.moveTo(lx - 52, ly + 13);
+            ctx.lineTo(lx - 36, ly + 13);
+            ctx.strokeStyle = 'rgba(255,0,170,0.7)';
+            ctx.shadowColor = 'rgba(255,0,170,0.4)';
+            ctx.shadowBlur  = 4;
+            ctx.lineWidth   = 1.5;
+            ctx.stroke();
+            ctx.shadowBlur  = 0;
+            ctx.fillStyle   = 'rgba(255,0,170,0.6)';
+            ctx.fillText('INFLATION', lx, ly + 13);
+        }
     }
 
+    // ── Tooltip ──
     canvas.addEventListener('mousemove', function (e) {
         if (!geo.cW) return;
         const rect   = canvas.getBoundingClientRect();
@@ -149,18 +223,39 @@ function initChart() {
             }
         }
 
+        // Find inflation at hovered date
+        const inflHist = window.INFLATION_HISTORY || [];
+        let inflRate   = null;
+        for (let i = 0; i < inflHist.length; i++) {
+            if (new Date(inflHist[i].date) <= hoverDate) inflRate = inflHist[i].rate;
+        }
+
         tooltip.textContent = '';
-        const line = document.createElement('span');
-        line.textContent = 'TAUX : ';
-        const strong = document.createElement('strong');
-        strong.textContent = rate.toFixed(2) + '%';
-        line.appendChild(strong);
-        tooltip.appendChild(line);
-        tooltip.appendChild(document.createElement('br'));
+
+        function addLine(label, value, color) {
+            const row = document.createElement('span');
+            row.textContent = label;
+            const val = document.createElement('strong');
+            val.textContent = value;
+            if (color) val.style.color = color;
+            row.appendChild(val);
+            tooltip.appendChild(row);
+            tooltip.appendChild(document.createElement('br'));
+        }
+
+        addLine('LIVRET A : ', rate.toFixed(2) + '%', '#00ff41');
+
+        if (inflRate !== null) {
+            addLine('INFLATION : ', inflRate.toFixed(1) + '%', '#ff00aa');
+            const real     = rate - inflRate;
+            const sign     = real >= 0 ? '+' : '';
+            addLine('TAUX RÉEL : ', sign + real.toFixed(2) + '%', real >= 0 ? '#00ff41' : '#ff00aa');
+        }
+
         tooltip.appendChild(document.createTextNode('DE ' + since + ' — ' + until));
         tooltip.style.display = 'block';
 
-        const tipW     = tooltip.offsetWidth;
+        const tipW      = tooltip.offsetWidth;
         const overRight = (mouseX + 14 + tipW) > geo.W;
         tooltip.style.left = (overRight ? mouseX - tipW - 14 : mouseX + 14) + 'px';
         tooltip.style.top  = Math.max(4, mouseY - 28) + 'px';
@@ -171,6 +266,7 @@ function initChart() {
     });
 
     draw();
+    window.redrawChart = draw;
 
     let resizeTimer;
     window.addEventListener('resize', function () {
