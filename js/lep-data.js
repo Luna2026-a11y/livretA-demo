@@ -1,7 +1,8 @@
 // ─── Données du taux LEP ──────────────────────────────────────────────────────
+// Fallback si l'API CDC échoue ou est trop ancienne.
 // Mettre à jour à chaque arrêté ministériel (1er fév. / 1er août).
 const LEP_RATE_DATA = {
-    rate: 3.5,
+    rate: 2.5,
     changeDate: '01 FÉVRIER 2026'
 };
 // Alias pour compatibilité avec inflation.js / chart.js / main.js / calculator.js
@@ -18,8 +19,8 @@ const LEP_HISTORY = [
     { date: '2024-02-01', rate: 5.00, label: 'Fév. 2024'  },
     { date: '2024-08-01', rate: 4.00, label: 'Août 2024'  },
     { date: '2025-02-01', rate: 3.50, label: 'Fév. 2025'  },
-    { date: '2025-08-01', rate: 3.00, label: 'Août 2025'  },
-    { date: '2026-02-01', rate: 3.50, label: 'Fév. 2026'  },
+    { date: '2025-08-01', rate: 2.70, label: 'Août 2025'  },
+    { date: '2026-02-01', rate: 2.50, label: 'Fév. 2026'  },
 ];
 const HISTORY = LEP_HISTORY;
 
