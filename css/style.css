@@ -110,6 +110,42 @@ body::after {
     margin-top: 6px;
 }
 
+/* ── Page nav ── */
+.page-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    font-size: 0.58rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.page-nav-link {
+    color: rgba(0, 245, 255, 0.3);
+    text-decoration: none;
+    padding: 5px 14px;
+    border: 1px solid rgba(0, 245, 255, 0.1);
+    transition: color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.page-nav-link:hover {
+    color: var(--cyan);
+    border-color: rgba(0, 245, 255, 0.4);
+}
+
+.page-nav-link.active {
+    color: var(--cyan);
+    border-color: var(--cyan);
+    box-shadow: 0 0 8px rgba(0, 245, 255, 0.15);
+}
+
+.page-nav-sep {
+    color: rgba(0, 245, 255, 0.15);
+    font-size: 0.52rem;
+}
+
 /* ── Status bar ── */
 .status-bar {
     display: flex;
