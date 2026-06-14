@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'none'; connect-src 'none'; frame-ancestors 'none';">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <title>Taux Livret A // CYBER-BANK</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -941,8 +943,15 @@
                     }
                 }
 
-                tooltip.innerHTML = 'TAUX&nbsp;: <strong>' + rate.toFixed(2) + '%</strong><br>' +
-                                    'DE ' + since + ' — ' + until;
+                tooltip.textContent = '';
+                const tLine = document.createElement('span');
+                tLine.textContent = 'TAUX : ';
+                const tStrong = document.createElement('strong');
+                tStrong.textContent = rate.toFixed(2) + '%';
+                tLine.appendChild(tStrong);
+                tooltip.appendChild(tLine);
+                tooltip.appendChild(document.createElement('br'));
+                tooltip.appendChild(document.createTextNode('DE ' + since + ' — ' + until));
                 tooltip.style.display = 'block';
 
                 const tipW = tooltip.offsetWidth;
