@@ -28,6 +28,8 @@ async function renderInflation() {
     document.getElementById('inf-inflation-value').textContent  = data.rate.toFixed(1);
     document.getElementById('inf-inflation-period').textContent = data.period;
     document.getElementById('inf-real-value').textContent       = sign + real.toFixed(2) + '%';
+    document.getElementById('inf-tip-period').textContent       = data.period;
+    document.getElementById('inf-tip-value').textContent        = data.rate.toFixed(1);
 
     const realEl   = document.getElementById('inf-real-value');
     const statusEl = document.getElementById('inf-status');
