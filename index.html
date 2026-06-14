@@ -15,6 +15,8 @@
     <title>Taux Livret A 2026 : 1,5 % — Mis à jour en temps réel</title>
     <meta name="description" content="Taux du Livret A en vigueur : 1,5 % depuis le 1er février 2026. Fixé par arrêté ministériel, mis à jour à chaque révision. Historique, sources officielles et évolution sur 10 ans.">
     <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#050510">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="canonical" href="https://neurocash.fr/">
     <meta property="og:title" content="Taux Livret A 2026 : 1,5 %">
     <meta property="og:description" content="Taux du Livret A en vigueur : 1,5 % depuis le 1er février 2026. Sources officielles, historique sur 10 ans.">
@@ -64,6 +66,8 @@
                 <button class="btn-console-toggle" id="btn-audio"
                         onclick="toggleAudio()" aria-label="Activer/désactiver la musique d'ambiance"
                         aria-pressed="false">♪ BGM OFF</button>
+                <a class="btn-console-toggle" href="#simulateur"
+                   aria-label="Aller au simulateur d'épargne">&gt;_ SIMULER</a>
                 <button class="btn-console-toggle" id="btn-console-toggle"
                         onclick="toggleConsole()" aria-label="Ouvrir la console sources"
                         aria-expanded="false">&gt;_ SOURCES</button>
@@ -100,7 +104,7 @@
             </div>
         </div>
 
-        <div class="calc-panel" aria-label="Simulateur d'épargne Livret A">
+        <div class="calc-panel" id="simulateur" aria-label="Simulateur d'épargne Livret A">
             <div class="chart-label">&gt;&nbsp;Simulateur d'épargne&nbsp;&lt;</div>
 
             <div class="calc-inputs">
@@ -155,6 +159,23 @@
            aria-label="Offrir un café à NeuroCash">
             ☕ &nbsp;[ OFFRIR UN CAFÉ ]
         </a>
+
+        <div class="affiliate-section">
+            <div class="chart-label">&gt;&nbsp;Ouvrir un Livret A&nbsp;&lt;</div>
+            <p class="affiliate-intro">Comparez et ouvrez un Livret A chez nos partenaires — sans frais, taux identique garanti par l'État.</p>
+            <div class="affiliate-btns">
+                <!-- TODO: remplacer href="#" par les liens Awin après inscription -->
+                <a class="btn-affiliate" href="#" target="_blank" rel="noopener noreferrer sponsored"
+                   aria-label="Ouvrir un Livret A chez BoursoBank">
+                    🏦 &nbsp;[ BOURSOBANK ]
+                </a>
+                <a class="btn-affiliate" href="#" target="_blank" rel="noopener noreferrer sponsored"
+                   aria-label="Ouvrir un Livret A chez Fortuneo">
+                    🏦 &nbsp;[ FORTUNEO ]
+                </a>
+            </div>
+            <p class="affiliate-legal">* Liens partenaires — NeuroCash peut percevoir une commission si vous ouvrez un compte via ces liens, sans coût supplémentaire pour vous.</p>
+        </div>
 
         <footer class="footer">
             Source&nbsp;: Banque de France — Caisse des Dépôts et Consignations<br>

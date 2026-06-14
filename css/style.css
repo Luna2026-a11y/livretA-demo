@@ -586,6 +586,92 @@ body::after {
 .btn-coffee:hover { color: var(--bg); text-shadow: none; }
 .btn-coffee:hover::before { transform: translateX(0); }
 
+/* ── Affiliation ── */
+.affiliate-section {
+    background: var(--panel);
+    border: 1px solid rgba(255, 0, 170, 0.25);
+    padding: 16px 16px 20px;
+    margin-top: 22px;
+    position: relative;
+}
+
+.affiliate-section::before, .affiliate-section::after {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    border-color: rgba(255, 0, 170, 0.4);
+    border-style: solid;
+}
+.affiliate-section::before { top: -1px;    left:  -1px; border-width: 2px 0 0 2px; }
+.affiliate-section::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+.affiliate-intro {
+    font-size: 0.55rem;
+    color: rgba(0, 245, 255, 0.35);
+    letter-spacing: 1px;
+    line-height: 1.8;
+    text-align: center;
+    margin: 10px 0 14px;
+}
+
+.affiliate-btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-affiliate {
+    flex: 1;
+    min-width: 140px;
+    padding: 14px 10px;
+    background: transparent;
+    border: 1px solid var(--pink);
+    color: var(--pink);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: color 0.25s;
+    text-shadow: 0 0 8px rgba(255, 0, 170, 0.3);
+    box-shadow: 0 0 10px rgba(255, 0, 170, 0.06);
+    pointer-events: none;
+    opacity: 0.55;
+}
+
+.btn-affiliate::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--pink);
+    transform: translateX(-101%);
+    transition: transform 0.28s ease;
+    z-index: -1;
+}
+
+.btn-affiliate.active {
+    pointer-events: auto;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.btn-affiliate.active:hover { color: var(--bg); text-shadow: none; }
+.btn-affiliate.active:hover::before { transform: translateX(0); }
+
+.affiliate-legal {
+    margin-top: 12px;
+    font-size: 0.48rem;
+    color: rgba(0, 245, 255, 0.2);
+    letter-spacing: 1px;
+    line-height: 1.8;
+    border-top: 1px solid rgba(0, 245, 255, 0.06);
+    padding-top: 8px;
+}
+
 /* ── Footer ── */
 .footer {
     text-align: center;
